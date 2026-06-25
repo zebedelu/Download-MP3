@@ -1,11 +1,35 @@
 from yt_dlp import YoutubeDL
+import os
 
+# Vai verificar se o ffmpeg está instalado
+ffmeg_instalado = not bool(os.system("ffmpeg -version 2>&1"))
 
+if not ffmeg_instalado:
+    print("Você precisa instalar o ffmpeg para prosseguir")
+    print("Iremos executar esse comando para instalar:")
+    print("- winget install Gyan.FFmpeg")
+    userchoice = input("Gostaria de instalar? (y/N)").lower()
+    if userchoice == "y":
+        # Vai detectar se o sistema é Windows ou Linux
+        if os.name == "nt":
+            os.system("pip install -r requirements.txt")
+            os.system("winget install Gyan.FFmpeg")
+        else:
+            os.system("pip3 install -r requirements.txt")
+            os.system("sudo apt install ffmpeg")
+
+    # Vai verificar se instalou corretamente
+    ffmeg_instalado = not bool(os.system("ffmpeg -version"))
+    if ffmeg_instalado:
+        print("FFMPEG instalado com sucesso!")
+    else:
+        print("Erro ao baixar o FFMPEG...")
+
+print("Baixe audios do youtube apenas com a URL")
 url = input("Cole aqui sua url: ").strip()
 
 opcoes = {
     "format": "bestaudio/best",
-    "ffmpeg_location": r"C:\Users\User\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-full_build\bin",
     "noplaylist": True,
     "outtmpl": "%(title)s.%(ext)s",
     "postprocessors": [
@@ -32,3 +56,5 @@ except Exception as erro:
     print("Nao foi possivel baixar/converter o audio.")
     print("Para gerar MP3, instale o FFmpeg e tente novamente.")
     print(f"Erro: {erro}")
+
+print("Vídeo instalado com sucesso!")

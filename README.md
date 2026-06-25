@@ -1,7 +1,7 @@
 Instale a biblioteca:
 
 ```powershell
-python -m pip install -U yt-dlp
+pip install yt-dlp
 ```
 
 Para converter para MP3, instale tambem o FFmpeg:
